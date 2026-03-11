@@ -52,6 +52,10 @@ python -m venv venv
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Configure environment (NEVER commit the .env file)
+cp .env.template .env
+# Edit .env and add your INTECMAR credentials
 ```
 
 ### 2. Execution

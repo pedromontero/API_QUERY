@@ -1,8 +1,19 @@
+# Credentials and Secrets
+**/.env
+**/.env.*
+**/credentials.json
+**/secrets/
+**/tokens/
+**/config_local.json
+
 # Python-related
 **/venv/
+**/env/
 **/__pycache__/
 **/*.pyc
-**/.env
+**/*.pyo
+**/*.pyd
+**/.pytest_cache/
 
 # Data and Plots (Outputs)
 **/output/
@@ -11,13 +22,21 @@
 # IDE files
 .vscode/
 .idea/
+*.swp
+*.swo
 
 # Large Files
 **/*.xlsx
 **/*.png
 **/*.webp
 **/*.log
+**/*.csv
+**/*.parquet
+**/*.h5
+**/*.netcdf
+**/*.nc
 
-# Project-specific
-CTD/.env
+# Project-specific/Old
 .gitignore_old
+**/tmp/
+**/temp/
