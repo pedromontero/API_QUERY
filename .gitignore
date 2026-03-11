@@ -1,6 +1,9 @@
 # Credentials and Secrets
 **/.env
-**/.env.*
+**/.env.local
+**/.env.development
+**/.env.production
+!**/.env.template
 **/credentials.json
 **/secrets/
 **/tokens/
