@@ -1,9 +1,9 @@
-# CTD Profile Recovery & Visualization Tool
+# CTD_query: Profile Recovery & Visualization Tool
 
 Developed for INTECMAR by Pedro Montero.
 
 ## 🌊 Overview
-This is a professional, object-oriented Python application designed to retrieve oceanographic CTD profile data from the INTECMAR API. It processes the raw data, exports structured Excel reports, and generates high-quality profile visualizations.
+This is **CTD_query**, a professional, object-oriented Python application designed to retrieve oceanographic CTD profile data from the INTECMAR API. It processes the raw data, exports structured Excel reports, and generates high-quality profile visualizations.
 
 ## 🏗️ Project Structure
 - `src/api/`: API clients (Base and CTD specific).

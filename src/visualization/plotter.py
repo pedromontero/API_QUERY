@@ -119,7 +119,7 @@ class ProfilePlotter:
                              fontweight='bold', fontsize=12)
                 ax.invert_yaxis()
 
-        title = f"INTECMAR CTD Profile Analysis\nStation: {station_code} | Date: {date_str}"
+        title = f"CTD_query: Profile Analysis\nStation: {station_code} | Date: {date_str}"
         if time_str:
             title += f" {time_str} UTC"
             
