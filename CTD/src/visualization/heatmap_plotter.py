@@ -6,8 +6,8 @@ Converts profile dictionaries into 2D heatmaps.
 import os
 from datetime import datetime
 import pandas as pd
-from src.data.time_series_2D import TimeSeries2D
-from src.data.parameters import Parameter
+from data.time_series_2D import TimeSeries2D
+from data.parameters import Parameter
 
 class CTDHeatmapPlotter:
     """Handles transformation and rendering of CTD heatmaps."""

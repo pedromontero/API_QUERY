@@ -4,10 +4,16 @@ Generates Depth vs. Time heatmaps for specific stations and parameters.
 """
 
 import os
+import sys
 import json
 from dotenv import load_dotenv
-from src.api.ctd_client import CTDApiClient
-from src.visualization.heatmap_plotter import CTDHeatmapPlotter
+
+# Add src to python path to match پروژه pattern
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+from api.ctd_client import CTDClient
+from data.processor import DataProcessor
+from visualization.heatmap_plotter import CTDHeatmapPlotter
 
 def load_config(path):
     if os.path.exists(path):
@@ -37,10 +43,7 @@ def main():
         return
 
     # 3. Initialize API Client
-    client = CTDApiClient(base_url)
-    if not client.login(user, password):
-        print("Error: Login failed.")
-        return
+    client = CTDClient(base_url, user, password)
 
     # 4. Processing parameters
     stations = common_cfg.get("stations", [])
@@ -54,24 +57,36 @@ def main():
     for station in stations:
         print(f"[*] Processing Station: {station}")
         
-        # Get profiles list
-        profiles = client.get_station_profiles(station, begin_date, end_date)
+        # 1. Fetch raw data (including Depth/Pressure)
+        variables = [parameter_to_plot, "Profundidad", "Presión"]
+        raw_data = client.get_ctd_data(station, begin_date, end_date, variables)
+        
+        if not raw_data:
+            print(f"    [!] No data found for station {station} in this period.")
+            continue
+
+        # 2. Process into domain models (Profiles)
+        profiles = DataProcessor.process_raw_data(station, raw_data)
+        
         if not profiles:
-            print(f"    [!] No profiles found for {station}")
+            print(f"    [!] No valid profiles found in response.")
             continue
             
-        print(f"    [+] Found {len(profiles)} profiles. Fetching data...")
+        print(f"    [+] Found {len(profiles)} profiles for the heatmap.")
         
-        # Accumulate data for the heatmap
+        # Accumulate data for the heatmap plotter
         station_data = {}
         for p in profiles:
-            data = client.get_profile_data(p.id)
-            if data:
-                station_data[p.time_str] = data
-        
-        if not station_data:
-            print(f"    [!] No data recovered for {station}")
-            continue
+            # Flatten measurements to dicts
+            flat_data = []
+            for m in p.measurements:
+                row = {}
+                if m.depth is not None: row["Profundidad"] = m.depth
+                if m.pressure is not None: row["Presión"] = m.pressure
+                row.update(m.values)
+                flat_data.append(row)
+            
+            station_data[p.timestamp] = flat_data
 
         # Initialize Plotter
         plotter = CTDHeatmapPlotter(

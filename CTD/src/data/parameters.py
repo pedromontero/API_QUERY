@@ -111,23 +111,22 @@ class Parameter:
     def get_by_name(name):
         """Get a Parameter object from parameter method name."""
         try:
-            return getattr(Parameter, name)()
+            attr = getattr(Parameter, name)
+            if callable(attr):
+                return attr()
+            return None
         except AttributeError:
-            method_list = [method for method in dir(Parameter) if not (method.startswith('__') or method.startswith('get'))]
-            print(f'\nERROR: There is not a parameter called "{name}".')
-            print('\nIncluded parameters are: ')
-            for method in method_list:
-                print(f'\t- {method}')
             return None
 
     @staticmethod
     def get_by_name_es(name_es):
         """Get a Parameter object from parameter Spanish name."""
-        method_list = [method for method in dir(Parameter) if not (method.startswith('__') or method.startswith('get'))]
-        for method in method_list:
-            method_object = Parameter.get_by_name(method)
-            if method_object and method_object.name_es == name_es:
-                return method_object
+        # Methods to check
+        methods = ['temperature', 'salinity', 'oxygen', 'ph', 'depth', 'pressure']
+        for method in methods:
+            p = Parameter.get_by_name(method)
+            if p and p.name_es == name_es:
+                return p
         return None
 
     def get_label(self):
