@@ -71,32 +71,41 @@ class CTDHeatmapPlotter:
         clean_vars = []
         clean_days = []
         
-        # Searching for correctly named columns
-        # The user's dataframe might have "Temperatura (ºC)" while Parameter says "Temperatura"
-        
         for date_str, measurements in data_by_date.items():
             df = pd.DataFrame(measurements)
             
-            # Find Depth column
-            depth_col = "Profundidad" if "Profundidad" in df.columns else ("Presión" if "Presión" in df.columns else None)
+            # Find Depth column (case-insensitive)
+            depth_col = next((c for c in df.columns if "profundidad" in c.lower() or "presi" in c.lower()), None)
             if not depth_col:
                 continue
             
-            # Find Parameter column (partial match)
-            target = self.parameter.name_es
-            var_col = next((c for c in df.columns if target.lower() in c.lower() and "_Flag" not in c), None)
+            # Find Parameter column (case-insensitive and excluding flags)
+            target = self.parameter.name_es.lower()
+            var_col = next((c for c in df.columns if target in c.lower() and "_flag" not in c.lower()), None)
             
             if not var_col:
                 continue
             
-            # Filter and drop NaNs
+            # Find corresponding Flag column
+            clean_var_no_units = var_col.split(' (')[0]
+            flag_col = next((c for c in df.columns if c.startswith(clean_var_no_units) and c.endswith("_Flag")), None)
+            
+            # Filter: drop NaNs in coordinates or variable
+            subset = [var_col, depth_col]
+            if flag_col:
+                subset.append(flag_col)
+                
             sub_df = df.dropna(subset=[var_col, depth_col])
+            
+            # FILTER: Exclude Flag 4 (Bad Data)
+            if flag_col:
+                sub_df = sub_df[sub_df[flag_col] != 4]
+            
             if sub_df.empty:
                 continue
             
             # Convert date
             try:
-                # Handle full ISO format or just date
                 dt = datetime.fromisoformat(date_str)
             except ValueError:
                 dt = datetime.strptime(date_str.split('T')[0], "%Y-%m-%d")
