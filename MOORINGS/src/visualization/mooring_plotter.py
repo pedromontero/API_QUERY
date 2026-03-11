@@ -38,12 +38,15 @@ class MooringPlotter:
         palette = sns.color_palette("husl", len(batches))
         
         for i, batch in enumerate(batches):
+            # FILTER: QualityCode distinct from 4
+            valid_m = [m for m in batch.measurements if m.flag != 4]
+            
             df = pd.DataFrame([
                 {
                     "date": m.date_obj,
                     "value": m.value,
                     "flag": m.flag
-                } for m in batch.measurements
+                } for m in valid_m
             ])
             
             if df.empty:

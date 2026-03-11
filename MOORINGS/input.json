@@ -4,6 +4,5 @@
     "stations": ["15001", "15005"],
     "variables": ["TAU", "SAL", "Velocidade do Vento"],
     "frequency": "hourly",
-    "function": "AVG",
-    "output_dir": "plots"
+    "function": "AVG"
 }
