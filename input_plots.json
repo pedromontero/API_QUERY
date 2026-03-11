@@ -1,0 +1,23 @@
+{
+    "plots_dir": "plots",
+    "only_good_data": false,
+    "scaled_plots": true,
+    "custom_scales": {
+        "Temperatura": [
+            10,
+            20
+        ],
+        "Salinidad": [
+            20,
+            36
+        ],
+        "pH": [
+            6,
+            9
+        ],
+        "Oxígeno": [
+            3,
+            8
+        ]
+    }
+}

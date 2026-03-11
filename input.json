@@ -1,0 +1,14 @@
+{
+    "begin_date": "2013-02-01",
+    "end_date": "2013-03-10",
+    "stations": [
+        "V3",
+        "P3"
+    ],
+    "variables": [
+        "Temperatura",
+        "Salinidad",
+        "Oxígeno",
+        "pH"
+    ]
+}
