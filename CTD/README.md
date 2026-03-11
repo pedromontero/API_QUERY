@@ -46,6 +46,12 @@ The tool uses a modular configuration system:
 - **Inverted Y-Axis**: Depth is correctly shown with 0 at the top.
 - **UTC Time**: Plots include the exact sampling time in UTC.
 
+### 🌡️ 2D Heatmap (Depth vs. Time)
+- **Grid Interpolation**: Uses Scipy's `griddata` for smooth 2D transitions between profiles.
+- **Dynamic Depth**: Automatic calculation of Y-axis based on station depth.
+- **Flag Filtering**: Automatic exclusion of bad data (Flag 4).
+- **Multi-Variable**: Generates separate heatmaps for all variables in `input.json`.
+
 ## 🚀 Usage
 
 ### 1. Setup
@@ -66,12 +72,14 @@ cp .env.template .env
 - **Full Run**: `python run_ctd.py`
 - **Only Excel**: `python export_standalone.py`
 - **Only Plots**: `python plots_standalone.py`
+- **Heatmaps**: `python heatmap_standalone.py`
 
 ## 🛠️ Requirements
 - `pandas`: Data manipulation.
 - `openpyxl`: Excel generation.
 - `matplotlib` & `seaborn`: Visualization.
 - `requests`: API interaction.
+- `scipy`: 2D interpolation for heatmaps.
 - `python-dotenv`: Environment variable management.
 - `jsonpickle`: Object serialization (internal).
 
