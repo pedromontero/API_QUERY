@@ -40,6 +40,8 @@ class MooringExporter:
             
             data = []
             for m in batch.measurements:
+                if m.flag == 9:
+                    continue
                 data.append({
                     "Date (UTC)": m.timestamp,
                     val_col: m.value,

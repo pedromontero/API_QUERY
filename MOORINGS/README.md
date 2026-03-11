@@ -44,7 +44,7 @@ The configuration is split into three files to maintain modularity:
 ```
 
 - **Variables**: Can be the ParameterCode (e.g., "20003"), the Short Name (e.g., "TAU"), or the Description.
-- **Filtering**: Data with **QualityCode 4** is automatically excluded from both plots and Excel files.
+- **Filtering**: Data with **QualityCode 9** is automatically excluded from both plots and Excel files.
 
 ## 📈 Features
 - **Multi-Depth Plotting**: Automatic comparison of sensors at different depths in a single graph.

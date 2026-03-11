@@ -1,8 +1,15 @@
 {
-    "begin_date": "2023-01-01",
-    "end_date": "2023-01-15",
-    "stations": ["15001", "15005"],
-    "variables": ["TAU", "SAL", "Velocidade do Vento"],
+    "begin_date": "2026-01-01",
+    "end_date": "2026-02-15",
+    "stations": [
+        "15001",
+        "15005"
+    ],
+    "variables": [
+        "TAU",
+        "SAL",
+        "Velocidade do Vento"
+    ],
     "frequency": "hourly",
     "function": "AVG"
 }
