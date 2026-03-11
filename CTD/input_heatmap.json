@@ -1,8 +1,7 @@
 {
     "output_dir": "plots/heatmaps",
-    "top": 0,
-    "depth": 50,
-    "auto_depth": true,
+    "top": 1,
+    "bottom": 2,
     "contour": true,
     "measure_dots": true
 }

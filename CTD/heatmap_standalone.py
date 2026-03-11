@@ -65,16 +65,22 @@ def main():
     for station in stations_to_process:
         print(f"[*] Processing Station: {station}")
         
-        # Determine station depth
-        station_depth = 60 # Default
+        # Determine station depth and calculate limits
+        station_depth_raw = 60 # Default
         if station in station_metadata:
             meta = station_metadata[station]
             if meta.get('Depth'):
-                station_depth = float(meta['Depth'])
-                print(f"    [i] Station depth from metadata: {station_depth}m")
+                station_depth_raw = float(meta['Depth'])
+                print(f"    [i] Station depth: {station_depth_raw}m")
         
-        # 1. Fetch raw data (including Depth/Pressure and ALL variables + Flags)
-        # We fetch all at once to minimize API calls per station
+        # New logic: eje de la grafica irá de top a (station_depth - bottom)
+        top_limit = heatmap_cfg.get("top", 0)
+        bottom_offset = heatmap_cfg.get("bottom", 0)
+        final_depth_limit = station_depth_raw - bottom_offset
+        
+        print(f"    [i] Plotting depth range: {top_limit}m to {final_depth_limit}m")
+
+        # 1. Fetch raw data
         all_fetch_vars = variables_to_process + ["Profundidad", "Presión"]
         raw_data = client.get_ctd_data(station, begin_date, end_date, all_fetch_vars)
         
@@ -82,7 +88,7 @@ def main():
             print(f"    [!] No data found for station {station} in this period.")
             continue
 
-        # 2. Process into domain models (Profiles)
+        # 2. Process into domain models
         profiles = DataProcessor.process_raw_data(station, raw_data)
         
         if not profiles:
@@ -91,7 +97,7 @@ def main():
             
         print(f"    [+] Found {len(profiles)} profiles. Generating heatmaps...")
         
-        # Accumulate data for the heatmap plotter (all measurements for this station)
+        # Accumulate data for the heatmap plotter
         station_data = {}
         for p in profiles:
             flat_data = []
@@ -100,7 +106,7 @@ def main():
                 if m.depth is not None: row["Profundidad"] = m.depth
                 if m.pressure is not None: row["Presión"] = m.pressure
                 row.update(m.values)
-                row.update(m.flags) # Include flags for filtering
+                row.update(m.flags) 
                 flat_data.append(row)
             station_data[p.timestamp] = flat_data
 
@@ -108,14 +114,13 @@ def main():
         for var in variables_to_process:
             print(f"    [>] Generating Heatmap for: {var}")
             
-            # Use specific color maps or default to coolwarm/jet
             c_map = heatmap_cfg.get("color_map", "coolwarm" if "temp" in var.lower() else "jet")
             
             plotter = CTDHeatmapPlotter(
                 station=station,
                 parameter_name=var,
-                top=heatmap_cfg.get("top", 0),
-                depth=station_depth if heatmap_cfg.get("auto_depth", True) else heatmap_cfg.get("depth", 60),
+                top=top_limit,
+                depth=final_depth_limit,
                 color_map=c_map,
                 contour=heatmap_cfg.get("contour", True),
                 measure_dots=heatmap_cfg.get("measure_dots", True)

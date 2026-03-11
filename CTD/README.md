@@ -29,8 +29,8 @@ The tool uses a modular configuration system:
     *   ... (rest of settings)
 
 3.  **`input_heatmap.json` (Heatmap Specifics)**:
-    *   `parameter`: Variable name in Spanish (e.g., "Temperatura").
-    *   `top` & `depth`: Depth range for the Y-axis.
+    *   `top`: Starting depth for the Y-axis (meters).
+    *   `bottom`: Meters to subtract from the station depth for the end range.
     *   `color_map`: Colormap to use (matplotlib names).
 
 4.  **`input_export.json` (Export Specifics)**:
