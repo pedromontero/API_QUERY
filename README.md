@@ -11,14 +11,10 @@ This repository contains a suite of professional Python tools designed to intera
 A module for retrieving, processing, and visualizing vertical profiles from CTD stations.
 - **Status**: Production Ready.
 - **Features**: Excel export, professional profile plotting (Seaborn), quality flag handling.
-
-### 2. [📡 REDECOS](REDECOS/) (Planned)
-Future module for the Costal Oceanographic Network (Rede de Observación Costeira).
-- **Status**: Planned.
-
-### 3. [⚓ MOORINGS](MOORINGS/) (Planned)
-Future module for fixed oceanographic platforms and moorings.
-- **Status**: Planned.
+## 📁 Modules
+- **`CTD/`**: Profile recovery, Excel reports, and 2D heatmaps.
+- **`MOORINGS/`**: Time series visualization for fixed stations with multi-depth support.
+- **`REDECOS/`**: (Coming soon)
 
 ## 🚀 Getting Started
 Each module is self-contained and may have its own requirements and configuration files. Please refer to the specific `README.md` within each directory for detailed setup instructions.

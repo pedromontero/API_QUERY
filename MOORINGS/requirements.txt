@@ -1,0 +1,8 @@
+requests
+pandas
+openpyxl
+matplotlib
+python-dotenv
+jsonpickle
+seaborn
+scipy
