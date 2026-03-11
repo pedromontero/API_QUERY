@@ -13,6 +13,7 @@ This is **CTD_query**, a professional, object-oriented Python application design
 - `run_ctd.py`: Integrated main launcher.
 - `export_standalone.py`: Standalone script for Excel export only.
 - `plots_standalone.py`: Standalone script for Profile plotting only.
+- `heatmap_standalone.py`: Standalone script for Depth vs. Time heatmaps.
 
 ## ⚙️ Configuration Files
 
@@ -21,15 +22,18 @@ The tool uses a modular configuration system:
 1.  **`input.json` (Common)**: 
     *   `begin_date` & `end_date`: Query time range.
     *   `stations`: Array of station codes (e.g., ["V3", "P3"]).
-    *   `variables`: List of variables to retrieve (Profundidad and Presión are added automatically).
+    *   `variables`: List of variables to retrieve.
 
-2.  **`input_plots.json` (Plotting Specifics)**:
+2.  **`input_plots.json` (Profile Plotting Specifics)**:
     *   `plots_dir`: Output folder for images.
-    *   `only_good_data`: If `true`, points with Flag 4 (Bad) are omitted.
-    *   `scaled_plots`: Enables custom X-axis scaling.
-    *   `custom_scales`: Dictionary of [Min, Max] ranges for plotting.
+    *   ... (rest of settings)
 
-3.  **`input_export.json` (Export Specifics)**:
+3.  **`input_heatmap.json` (Heatmap Specifics)**:
+    *   `parameter`: Variable name in Spanish (e.g., "Temperatura").
+    *   `top` & `depth`: Depth range for the Y-axis.
+    *   `color_map`: Colormap to use (matplotlib names).
+
+4.  **`input_export.json` (Export Specifics)**:
     *   `output_dir`: Output folder for Excel files.
 
 ## 📈 Plotting Features

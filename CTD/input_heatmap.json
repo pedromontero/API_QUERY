@@ -1,0 +1,9 @@
+{
+    "parameter": "Temperatura",
+    "output_dir": "plots/heatmaps",
+    "top": 0,
+    "depth": 50,
+    "color_map": "coolwarm",
+    "contour": true,
+    "measure_dots": true
+}
