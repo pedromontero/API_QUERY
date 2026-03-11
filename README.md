@@ -1,9 +1,9 @@
 # API_QUERY: Oceanographic Monitoring API Clients
 
-Developed with ❤️ at INTECMAR by Pedro Montero.
+Developed at INTECMAR by Pedro Montero.
 
 ## 📌 Overview
-This repository contains a suite of professional Python tools designed to interact with the INTECMAR Oceanographic API. It is organized into several modules, each specializing in a specific monitoring network or data type.
+This repository contains a suite of professional Python tools designed to interact with the OCXG Oceanographic API. It is organized into several modules, each specializing in a specific monitoring network or data type.
 
 ## 📂 Repository Structure
 
