@@ -1,6 +1,6 @@
 """
-Mooring Plotter for Time Series.
-Generates professional plots with multiple depths and quality indicators.
+Plotting module for Mooring data.
+Generates time-series plots for parameters, handling multiple depths.
 """
 
 import os
@@ -8,13 +8,11 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import seaborn as sns
 import pandas as pd
-from datetime import datetime
 
 class MooringPlotter:
     """
-    Handles plotting of Mooring time series data.
+    Handles generation of time-series plots for Mooring data.
     """
-    
     def __init__(self, output_dir="plots"):
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
@@ -53,16 +51,12 @@ class MooringPlotter:
                 continue
                 
             label = f"{param_name}"
-            if batch.measurements[0].depth is not None:
-                label += f" ({batch.measurements[0].depth}m)"
+            depth = batch.measurements[0].depth
+            if depth is not None:
+                label += f" ({depth}m)"
             
             # Plot line
             sns.lineplot(data=df, x="date", y="value", label=label, color=palette[i], linewidth=1.5, alpha=0.8)
-            
-            # Plot quality indicators (optional, maybe just for Flag 4?)
-            bad_data = df[df["flag"] == 4]
-            if not bad_data.empty:
-                plt.scatter(bad_data["date"], bad_data["value"], color="black", marker="x", s=30, label="Flag 4 (Bad)" if i == 0 else "")
 
         title = f"{station_name or station_code} - {param_name}"
         plt.title(title, fontsize=14, fontweight='bold', pad=20)
