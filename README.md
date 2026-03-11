@@ -1,71 +1,31 @@
-# CTD_query: Profile Recovery & Visualization Tool
+# API_QUERY: Oceanographic Monitoring API Clients
 
-Developed for INTECMAR by Pedro Montero.
+Developed with ❤️ at INTECMAR by Pedro Montero.
 
-## 🌊 Overview
-This is **CTD_query**, a professional, object-oriented Python application designed to retrieve oceanographic CTD profile data from the INTECMAR API. It processes the raw data, exports structured Excel reports, and generates high-quality profile visualizations.
+## 📌 Overview
+This repository contains a suite of professional Python tools designed to interact with the INTECMAR Oceanographic API. It is organized into several modules, each specializing in a specific monitoring network or data type.
 
-## 🏗️ Project Structure
-- `src/api/`: API clients (Base and CTD specific).
-- `src/data/`: Data processing (`processor.py`) and Excel exporting (`exporter.py`) logic.
-- `src/visualization/`: Advanced profile plotting using Matplotlib and Seaborn.
-- `src/models/`: Domain models for Profiles and Measurements.
-- `run_ctd.py`: Integrated main launcher.
-- `export_standalone.py`: Standalone script for Excel export only.
-- `plots_standalone.py`: Standalone script for Profile plotting only.
+## 📂 Repository Structure
 
-## ⚙️ Configuration Files
+### 1. [🌊 CTD](CTD/) (Active)
+A module for retrieving, processing, and visualizing vertical profiles from CTD stations.
+- **Status**: Production Ready.
+- **Features**: Excel export, professional profile plotting (Seaborn), quality flag handling.
 
-The tool uses a modular configuration system:
+### 2. [📡 REDECOS](REDECOS/) (Planned)
+Future module for the Costal Oceanographic Network (Rede de Observación Costeira).
+- **Status**: Planned.
 
-1.  **`input.json` (Common)**: 
-    *   `begin_date` & `end_date`: Query time range.
-    *   `stations`: Array of station codes (e.g., ["V3", "P3"]).
-    *   `variables`: List of variables to retrieve (Profundidad and Presión are added automatically).
+### 3. [⚓ MOORINGS](MOORINGS/) (Planned)
+Future module for fixed oceanographic platforms and moorings.
+- **Status**: Planned.
 
-2.  **`input_plots.json` (Plotting Specifics)**:
-    *   `plots_dir`: Output folder for images.
-    *   `only_good_data`: If `true`, points with Flag 4 (Bad) are omitted.
-    *   `scaled_plots`: Enables custom X-axis scaling.
-    *   `custom_scales`: Dictionary of [Min, Max] ranges for plotting.
+## 🚀 Getting Started
+Each module is self-contained and may have its own requirements and configuration files. Please refer to the specific `README.md` within each directory for detailed setup instructions.
 
-3.  **`input_export.json` (Export Specifics)**:
-    *   `output_dir`: Output folder for Excel files.
+### Prerequisites
+- Python 3.8+
+- Git
 
-## 📈 Plotting Features
-- **Premium Aesthetics**: Professional look using Seaborn themes.
-- **Multiple Subplots**: Each variable is plotted in its own subplot with a unique color.
-- **Quality Indicators**:
-    - **● Filled Circle**: Good Data (Flag 1).
-    - **○ Hollow Circle**: No Control (Flag 0).
-    - **❌ Black X**: Bad Data (Flag 4).
-- **Inverted Y-Axis**: Depth is correctly shown with 0 at the top.
-- **UTC Time**: Plots include the exact sampling time in UTC.
-
-## 🚀 Usage
-
-### 1. Setup
-```powershell
-# Create and activate venv
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### 2. Execution
-- **Full Run**: `python run_ctd.py`
-- **Only Excel**: `python export_standalone.py`
-- **Only Plots**: `python plots_standalone.py`
-
-## 🛠️ Requirements
-- `pandas`: Data manipulation.
-- `openpyxl`: Excel generation.
-- `matplotlib` & `seaborn`: Visualization.
-- `requests`: API interaction.
-- `python-dotenv`: Environment variable management.
-- `jsonpickle`: Object serialization (internal).
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📜 License
+This repository is licensed under the MIT License - see the [CTD/LICENSE](CTD/LICENSE) file for details.

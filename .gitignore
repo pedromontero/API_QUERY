@@ -1,10 +1,23 @@
-venv/
-__pycache__/
-*.pyc
-.env
-output/
-plots/
+# Python-related
+**/venv/
+**/__pycache__/
+**/*.pyc
+**/.env
+
+# Data and Plots (Outputs)
+**/output/
+**/plots/
+
+# IDE files
 .vscode/
 .idea/
-*.xlsx
-*.png
+
+# Large Files
+**/*.xlsx
+**/*.png
+**/*.webp
+**/*.log
+
+# Project-specific
+CTD/.env
+.gitignore_old
