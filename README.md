@@ -17,9 +17,10 @@ A module for fixed oceanographic platforms and moorings time series.
 - **Status**: Production Ready.
 - **Features**: Multi-depth time series plots, Excel data export, quality flag filtering, and automatic parameter resolution.
 
-### 3. [🪸 REDECOS](REDECOS/)
-Future module for the Coastal Oceanographic Network (Rede de Observación Costeira).
-- **Status**: Planned (Coming soon).
+### 3. [🦀 REDECOS](REDECOS/)
+A module for the Coastal Oceanographic Network (Rede de Observación Costeira).
+- **Status**: Production Ready.
+- **Features**: Multi-station parameter export to Excel, professional time series plotting, automated parameter resolution, and quality flag handling.
 
 ## 🚀 Getting Started
 Each module is self-contained and may have its own requirements and configuration files. Please refer to the specific `README.md` within each directory for detailed setup instructions.

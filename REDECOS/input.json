@@ -1,0 +1,6 @@
+{
+    "begin_date": "2026-01-01",
+    "end_date": "2026-01-05",
+    "stations": ["GB", "AR", "LO"],
+    "variables": ["Temperatura", "Salinidade"]
+}
