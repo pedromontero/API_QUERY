@@ -52,6 +52,18 @@ The tool uses a modular configuration system:
 - **Flag Filtering**: Automatic exclusion of bad data (Flag 4).
 - **Multi-Variable**: Generates separate heatmaps for all variables in `input.json`.
 
+## 📉 Visualization Examples
+
+### 1. Vertical Profile
+Individual profiles with quality flag markings:
+
+![CTD Vertical Profile Example](plots/20130225_P3.png)
+
+### 2. 2D Heatmap
+Time series evolution vs. depth for a specific station:
+
+![CTD Heatmap Example](plots/heatmaps/heatmap_V3_temperatura.png)
+
 ## 🚀 Usage
 
 ### 1. Setup
