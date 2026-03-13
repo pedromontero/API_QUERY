@@ -17,7 +17,7 @@
 ! AUTHOR       : Pedro Montero Vilar                                           !
 ! CONTACT      : pmontero@intecmar.gal                                         !
 !                                                                              !
-! DESCRIPTION  : Core utility script for the OCXG monitoring system.           !
+! DESCRIPTION  : Handles generation of high-quality time series plots.         !
 !                                                                              !
 !==============================================================================!
 !                               MIT LICENSE                                    !
@@ -56,17 +56,78 @@ __maintainer__  = "Pedro Montero Vilar"
 __email__       = "pmontero@intecmar.gal"
 __status__       = "Production"
 
+import matplotlib.pyplot as plt
+import seaborn as sns
 import os
-import sys
+import pandas as pd
 
-print("Current Dir:", os.getcwd())
-print("Files in current dir:", os.listdir())
-print("PYTHONPATH:", sys.path)
+class TimeseriesPlotter:
+    """
+    Handles generation of high-quality time series plots for aggregated data.
+    """
+    def __init__(self, plots_dir):
+        self.plots_dir = plots_dir
+        if not os.path.exists(plots_dir):
+            os.makedirs(plots_dir)
+        
+        # Set a premium theme
+        sns.set_theme(style="whitegrid", context="talk", palette="deep")
 
-try:
-    import src
-    print("src found!")
-    import src.api
-    print("src.api found!")
-except Exception as e:
-    print("Error:", e)
+    def plot_timeseries(self, df, station_code, parameter_name, y_limits=None):
+        """
+        Creates a time series plot for a specific parameter and station.
+        Supports multiple aggregation types in the same plot.
+        """
+        if df.empty:
+            return None
+
+        plt.figure(figsize=(15, 8))
+        
+        # Sort by date for proper line plotting
+        df = df.sort_values(by='CastDate')
+        
+        # Unique aggregation types in this data
+        agg_types = df['Agregacion'].unique()
+        
+        # Plot each aggregation type
+        for agg in agg_types:
+            agg_data = df[df['Agregacion'] == agg]
+            plt.plot(agg_data['CastDate'], agg_data['Value'], 
+                     marker='o', markersize=4, label=agg, linewidth=2, alpha=0.9)
+
+        # Aesthetics
+        plt.title(f"CTD Time Series - Station {station_code}\nParameter: {parameter_name}", 
+                  fontsize=18, fontweight='bold', pad=20)
+        plt.xlabel("Date", fontsize=14, fontweight='semibold')
+        plt.ylabel(parameter_name, fontsize=14, fontweight='semibold')
+        
+        # Grid and spines
+        plt.grid(True, linestyle='--', alpha=0.7)
+        sns.despine(trim=True)
+        
+        plt.legend(title="Aggregation", loc='best', frameon=True, shadow=True)
+        
+        # Y axis limits
+        if y_limits and isinstance(y_limits, dict):
+            min_val = y_limits.get('min')
+            max_val = y_limits.get('max')
+            if min_val is not None and max_val is not None:
+                plt.ylim(min_val, max_val)
+            elif min_val is not None:
+                plt.ylim(bottom=min_val)
+            elif max_val is not None:
+                plt.ylim(top=max_val)
+
+        # Fix overlapping dates
+        plt.gcf().autofmt_xdate()
+        
+        plt.tight_layout()
+
+        # Save plot
+        clean_param = parameter_name.replace("/", "_").replace(" ", "_")
+        filename = f"timeseries_{station_code}_{clean_param}.png"
+        filepath = os.path.join(self.plots_dir, filename)
+        plt.savefig(filepath, dpi=200, bbox_inches='tight')
+        plt.close()
+        
+        return filepath

@@ -1,0 +1,15 @@
+{
+    "aggregation_types": [
+        "AVG_SUP_5",
+        "AVG_5_10",
+        "AVG_10_15"
+    ],
+    "y_axis": {
+        "Temperatura": {
+            "min": 10,
+            "max": 20
+        },
+        "Salinidad": "auto"
+    },
+    "output_dir": "CTD/plots/timeseries"
+}

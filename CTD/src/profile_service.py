@@ -17,7 +17,7 @@
 ! AUTHOR       : Pedro Montero Vilar                                           !
 ! CONTACT      : pmontero@intecmar.gal                                         !
 !                                                                              !
-! DESCRIPTION  : Orchestrates the retrieval, processing, and visualization ... !
+! DESCRIPTION  : Orchestrates the retrieval and processing of CTD profiles.    !
 !                                                                              !
 !==============================================================================!
 !                               MIT LICENSE                                    !
@@ -68,7 +68,6 @@ from visualization.plotter import ProfilePlotter
 class CTDService:
     """
     Orchestrates the retrieval, processing, and visualization of CTD data.
-    Follows SOLID principles and OO design.
     """
     def __init__(self):
         load_dotenv()
@@ -81,18 +80,23 @@ class CTDService:
             sys.exit(1)
             
         self.client = CTDClient(self.api_url, self.username, self.password)
-        self.exporter = ExcelExporter("output")
-        self.plotter = ProfilePlotter("plots")
 
     def run(self, common_input="input.json", export_input="input_export.json", plots_input="input_plots.json"):
         """
         Main execution flow.
         """
-        if not os.path.exists(common_input):
-            print(f"Error: Common input file {common_input} not found.")
+        script_dir = os.getcwd()
+        if not os.path.exists(os.path.join(script_dir, common_input)):
+            # If called from CTD subfolder
+            script_dir = os.path.dirname(os.path.abspath(__file__)) # src/
+            script_dir = os.path.dirname(script_dir) # CTD/
+
+        common_path = os.path.join(script_dir, common_input)
+        if not os.path.exists(common_path):
+            print(f"Error: Common input file {common_path} not found.")
             return
 
-        with open(common_input, 'r', encoding='utf-8') as f:
+        with open(common_path, 'r', encoding='utf-8') as f:
             config = json.load(f)
 
         begin_date = config.get("begin_date")
@@ -100,34 +104,32 @@ class CTDService:
         station_codes = config.get("stations", [])
         variables = config.get("variables", ["Temperatura", "Salinidad"])
         
-        # Always request Depth and Pressure as they are required for plotting and by user request
         for req in ["Profundidad", "Presión"]:
             if req not in variables:
                 variables.append(req)
 
         # Component specific configs
+        export_path = os.path.join(script_dir, export_input)
         export_config = {}
-        if os.path.exists(export_input):
-            with open(export_input, 'r', encoding='utf-8') as f:
+        if os.path.exists(export_path):
+            with open(export_path, 'r', encoding='utf-8') as f:
                 export_config = json.load(f)
         
+        plots_path = os.path.join(script_dir, plots_input)
         plots_config = {}
-        if os.path.exists(plots_input):
-            with open(plots_input, 'r', encoding='utf-8') as f:
+        if os.path.exists(plots_path):
+            with open(plots_path, 'r', encoding='utf-8') as f:
                 plots_config = json.load(f)
 
-        # Plotting specific settings from plots_config
         only_good_data = plots_config.get("only_good_data", False)
         scaled_plots = plots_config.get("scaled_plots", False)
         custom_scales = plots_config.get("custom_scales", {})
 
-        # Initialize components with their specific configs
         exporter = ExcelExporter(export_config.get("output_dir", "output"))
         plotter = ProfilePlotter(plots_config.get("plots_dir", "plots"))
 
-        # Basic validation
         if not begin_date or not end_date or not station_codes:
-            print("Error: Invalid configuration in input.json. Check dates and stations.")
+            print("Error: Invalid configuration. Check dates and stations.")
             return
 
         print(f"--- Starting CTD Data Recovery ({begin_date} to {end_date}) ---")
@@ -135,26 +137,18 @@ class CTDService:
         for station in station_codes:
             print(f"[*] Processing Station: {station}")
             try:
-                # 1. Fetch raw data
                 raw_data = self.client.get_ctd_data(station, begin_date, end_date, variables)
-                
                 if not raw_data:
-                    print(f"    [!] No data found for station {station} in this period.")
+                    print(f"    [!] No data found for station {station}.")
                     continue
 
-                # 2. Process into domain models
                 profiles = DataProcessor.process_raw_data(station, raw_data)
-                
                 if not profiles:
-                    print(f"    [!] No valid profiles found in response.")
                     continue
 
-                # 3. Prepare for export and visualization
                 export_profiles = []
                 for profile in profiles:
                     print(f"    [+] Profile found: {profile.timestamp}")
-                    
-                    # Convert measurements list of objects to list of dicts for pandas
                     flat_data = []
                     for m in profile.measurements:
                         row = {}
@@ -170,24 +164,16 @@ class CTDService:
                         'data': flat_data
                     })
                     
-                    # 4. Generate visualization
                     plotter.plot_profile(
-                        station, 
-                        profile.date_str, 
-                        flat_data, 
+                        station, profile.date_str, flat_data, 
                         time_str=profile.time_str,
                         only_good_data=only_good_data,
                         scaled_plots=scaled_plots,
                         custom_scales=custom_scales
                     )
 
-                # 5. Export to Excel
                 exporter.export_station_data(station, export_profiles)
                 print(f"    [OK] Excel and plots generated for {station}.")
 
             except Exception as e:
                 print(f"    [ERROR] Failed to process station {station}: {e}")
-
-if __name__ == "__main__":
-    service = CTDService()
-    service.run()

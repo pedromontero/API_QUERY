@@ -7,13 +7,16 @@ This is **CTD_query**, a professional, object-oriented Python application design
 
 ## 🏗️ Project Structure
 - `src/api/`: API clients (Base and CTD specific).
-- `src/data/`: Data processing (`processor.py`) and Excel exporting (`exporter.py`) logic.
-- `src/visualization/`: Advanced profile plotting using Matplotlib and Seaborn.
+- `src/data/`: Data processing (`processor.py`, `timeseries_processor.py`) and Excel exporting (`exporter.py`) logic.
+- `src/visualization/`: Advanced profile and time series plotting.
 - `src/models/`: Domain models for Profiles and Measurements.
+- `src/profile_service.py`: Orchestrator for vertical profiles.
+- `src/timeseries_service.py`: Orchestrator for aggregated time series.
 - `run_ctd.py`: Integrated main launcher.
 - `export_standalone.py`: Standalone script for Excel export only.
 - `plots_standalone.py`: Standalone script for Profile plotting only.
 - `heatmap_standalone.py`: Standalone script for Depth vs. Time heatmaps.
+- `timeseries_standalone.py`: Standalone script for Aggregated Time Series.
 
 ## ⚙️ Configuration Files
 
@@ -35,6 +38,11 @@ The tool uses a modular configuration system:
 
 4.  **`input_export.json` (Export Specifics)**:
     *   `output_dir`: Output folder for Excel files.
+
+5.  **`input_timeseries.json` (Time Series Specifics)**:
+    *   `aggregation_types`: List of requested aggregations (e.g., "AVG_SUP_5").
+    *   `y_axis`: Dictionary for manual variable scales (min/max).
+    *   `output_dir`: Output folder for time series plots.
 
 ## 📈 Plotting Features
 - **Premium Aesthetics**: Professional look using Seaborn themes.
@@ -59,10 +67,10 @@ Individual profiles with quality flag markings:
 
 ![CTD Vertical Profile Example](plots/20130225_P3.png)
 
-### 2. 2D Heatmap
-Time series evolution vs. depth for a specific station:
+### 3. Aggregated Time Series
+Evolution of different water layers (aggregations) over time:
 
-![CTD Heatmap Example](plots/heatmaps/heatmap_V3_temperatura.png)
+![CTD Time Series Example](../assets/timeseries_example.png)
 
 ## 🚀 Usage
 
@@ -85,6 +93,7 @@ cp .env.template .env
 - **Only Excel**: `python export_standalone.py`
 - **Only Plots**: `python plots_standalone.py`
 - **Heatmaps**: `python heatmap_standalone.py`
+- **Time Series**: `python timeseries_standalone.py`
 
 ## 🛠️ Requirements
 - `pandas`: Data manipulation.

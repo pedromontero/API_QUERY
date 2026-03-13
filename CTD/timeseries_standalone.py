@@ -17,7 +17,8 @@
 ! AUTHOR       : Pedro Montero Vilar                                           !
 ! CONTACT      : pmontero@intecmar.gal                                         !
 !                                                                              !
-! DESCRIPTION  : Main orchestrator for the CTD module.                         !
+! DESCRIPTION  : Standalone script for CTD time series from aggregated data.   !
+!                Uses the common CTDTimeseriesService architecture.            !
 !                                                                              !
 !==============================================================================!
 !                               MIT LICENSE                                    !
@@ -56,14 +57,14 @@ __maintainer__  = "Pedro Montero Vilar"
 __email__       = "pmontero@intecmar.gal"
 __status__       = "Production"
 
-import sys
 import os
+import sys
 
 # Add src to python path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
-from src.profile_service import CTDService
+from src.timeseries_service import CTDTimeseriesService
 
 if __name__ == "__main__":
-    service = CTDService()
-    service.run()
+    service = CTDTimeseriesService()
+    service.run(common_input="input.json", ts_input="input_timeseries.json")

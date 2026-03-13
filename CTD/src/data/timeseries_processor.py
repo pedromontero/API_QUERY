@@ -17,7 +17,7 @@
 ! AUTHOR       : Pedro Montero Vilar                                           !
 ! CONTACT      : pmontero@intecmar.gal                                         !
 !                                                                              !
-! DESCRIPTION  : Main orchestrator for the CTD module.                         !
+! DESCRIPTION  : Processor for aggregated CTD data.                            !
 !                                                                              !
 !==============================================================================!
 !                               MIT LICENSE                                    !
@@ -56,14 +56,38 @@ __maintainer__  = "Pedro Montero Vilar"
 __email__       = "pmontero@intecmar.gal"
 __status__       = "Production"
 
-import sys
-import os
+import pandas as pd
+from typing import List, Dict, Any
 
-# Add src to python path
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+class TimeseriesProcessor:
+    """
+    Logic for transforming aggregated API responses into DataFrames.
+    """
+    
+    @staticmethod
+    def to_dataframe(raw_data: List[Dict[str, Any]]) -> pd.DataFrame:
+        """
+        Converts the list of aggregated values into a clean DataFrame.
+        """
+        if not raw_data:
+            return pd.DataFrame()
+            
+        df = pd.DataFrame(raw_data)
+        
+        # Ensure dates are datetime objects
+        if 'CastDate' in df.columns:
+            df['CastDate'] = pd.to_datetime(df['CastDate'])
+            
+        return df
 
-from src.profile_service import CTDService
-
-if __name__ == "__main__":
-    service = CTDService()
-    service.run()
+    @staticmethod
+    def filter_parameters(df: pd.DataFrame, parameters: List[str]) -> pd.DataFrame:
+        """
+        Filters the DataFrame by parameter name.
+        """
+        if df.empty or not parameters:
+            return df
+            
+        # Case insensitive filter
+        lower_params = [p.lower() for p in parameters]
+        return df[df['ParameterName'].str.lower().apply(lambda x: any(p in x for p in lower_params))]

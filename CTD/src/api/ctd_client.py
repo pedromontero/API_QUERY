@@ -94,3 +94,23 @@ class CTDClient(BaseIntecmarClient):
             params["parameter"] = parameters
             
         return self._get(f"ctd/data/{station_code}", params=params)
+
+    def get_aggregation_types(self):
+        """
+        Retrieves available aggregation types for CTD data.
+        """
+        return self._get("ctd/data/aggregation_type/")
+
+    def get_aggregated_data(self, station_code, aggregation_type, begin_date, end_date, parameters=None):
+        """
+        Retrieves aggregated CTD data for a station and aggregation type.
+        """
+        params = {
+            "begin_date": begin_date,
+            "end_date": end_date,
+            "format": "JSON"
+        }
+        if parameters:
+            params["parameter"] = parameters
+            
+        return self._get(f"ctd/data/{station_code}/{aggregation_type}", params=params)
