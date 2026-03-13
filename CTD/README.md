@@ -65,7 +65,12 @@ The tool uses a modular configuration system:
 ### 1. Vertical Profile
 Individual profiles with quality flag markings:
 
-![CTD Vertical Profile Example](plots/20130225_P3.png)
+![CTD Vertical Profile Example](../assets/profile_example.png)
+
+### 2. 2D Heatmap
+Time series evolution vs. depth for a specific station:
+
+![CTD Heatmap Example](../assets/heatmap_example.png)
 
 ### 3. Aggregated Time Series
 Evolution of different water layers (aggregations) over time:
