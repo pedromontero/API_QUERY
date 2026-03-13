@@ -6,7 +6,7 @@
 !==============================================================================!
 !                                                                              !
 ! TITLE        : OCXG API_QUERY                                                !
-! PROJECT      : CAPTA (Coastal Observatory of Galicia)                        !
+! PROJECT      : CAPTA                                                         !
 ! URL          : http://observatoriocosteiro.gal/es                            !
 ! AFFILIATION  : INTECMAR (Xunta de Galicia)                                   !
 !                                                                              !
@@ -42,6 +42,10 @@
 ! LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, !
 ! OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN    !
 ! THE SOFTWARE.                                                                !
+!------------------------------------------------------------------------------!
+! Project CAPTA. Co-funded by the European Union through the Interreg VI-A     !
+! Spain-Portugal (POCTEP) 2021-2027 Program. The opinions expressed are the    !
+! sole responsibility of the author.                                           !
 !==============================================================================!
 """
 
