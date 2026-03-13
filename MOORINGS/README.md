@@ -52,6 +52,11 @@ The configuration is split into three files to maintain modularity:
 - **Premium Aesthetics**: Professional-grade plots using Seaborn.
 - **Dynamic Variable Matching**: Automatically resolves parameter IDs for each station.
 
+## 📉 Visualization Example
+Below is an example of a generated time series plot for a mooring station:
+
+![Mooring Time Series Example](plots/timeseries_15001_tau.png)
+
 ## 🚀 Usage
 ```powershell
 # Activate venv
