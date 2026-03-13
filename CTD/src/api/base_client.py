@@ -11,7 +11,7 @@
 ! AFFILIATION  : INTECMAR (Xunta de Galicia)                                   !
 !                                                                              !
 ! DATE         : March 2026                                                    !
-! VERSION      : 0.1.0-alpha                                                   !
+! VERSION      :  1.0.0                                                        !
 ! REVISION     : Montero 0.1                                                   !
 !                                                                              !
 ! AUTHOR       : Pedro Montero Vilar                                           !
@@ -52,10 +52,10 @@
 __author__      = "Pedro Montero Vilar"
 __copyright__   = "Copyright 2026, INTECMAR"
 __license__     = "MIT"
-__version__     = "0.1.0"
+__version__      = "1.0.0"
 __maintainer__  = "Pedro Montero Vilar"
 __email__       = "pmontero@intecmar.gal"
-__status__      = "Development"
+__status__       = "Production"
 
 import requests
 import time
