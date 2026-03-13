@@ -31,6 +31,7 @@
 # Large Files
 **/*.xlsx
 **/*.png
+!assets/*.png
 **/*.webp
 **/*.log
 **/*.csv
