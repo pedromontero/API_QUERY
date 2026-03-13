@@ -31,3 +31,15 @@ Each module is self-contained and may have its own requirements and configuratio
 
 ## 📜 License
 This repository is licensed under the MIT License - see the [CTD/LICENSE](CTD/LICENSE) file for details.
+
+---
+
+<div align="center">
+  <img src="assets/interreg_capta.png" alt="Interreg España-Portugal CAPTA" width="600">
+</div>
+
+**ES:** Cofinanciado por la Unión Europea a través del Programa Interreg VI-A España-Portugal (POCTEP) 2021-2027. Las opiniones son de exclusiva responsabilidad del autor que las emite.
+
+**PT:** Cofinanciado pela União Europea através do Programa Interreg VI-A Espanha-Portugal (POCTEP) 2021-2027. As opiniões expressas são da exclusiva responsabilidade do autor.
+
+**EN:** Co-funded by the European Union through the Interreg VI-A Spain-Portugal (POCTEP) 2021-2027 Program. The opinions expressed are the sole responsibility of the author.
